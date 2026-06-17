@@ -2,11 +2,12 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import LoginForm from '@/components/auth/LoginForm';
 import { useAuthStore } from '@/stores/auth.store';
 
-export default function RootPage() {
+export default function LoginPage() {
+  const { isAuthenticated, initFromStorage } = useAuthStore();
   const router = useRouter();
-  const { initFromStorage, isAuthenticated } = useAuthStore();
 
   useEffect(() => {
     initFromStorage();
@@ -15,10 +16,8 @@ export default function RootPage() {
   useEffect(() => {
     if (isAuthenticated) {
       router.replace('/dashboard');
-    } else {
-      router.replace('/login');
     }
   }, [isAuthenticated, router]);
 
-  return null;
+  return <LoginForm />;
 }
